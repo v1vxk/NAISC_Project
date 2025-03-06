@@ -12,6 +12,9 @@ interface ScenarioContentProps {
   title: string;
   description: string;
   prompt: string;
+  avatar: string;
+  background: string;
+  voice: string;
 }
 
 const generateShortId = () => {
@@ -19,7 +22,7 @@ const generateShortId = () => {
   return `${randomNum}`;
 };
 
-export default function ScenarioContent({ title, description, prompt }: ScenarioContentProps) {
+export default function ScenarioContent({ title, description, prompt, avatar, background, voice }: ScenarioContentProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [conversationId] = useState(generateShortId());
@@ -72,6 +75,9 @@ export default function ScenarioContent({ title, description, prompt }: Scenario
             <Conversation
               conversationId={conversationId}
               prompt={prompt}
+              avatar={avatar}
+              background={background}
+              voice={voice}
               muted={muted}
               setConversationAvatarType={setConversationAvatarType}
               setThinkingState={setThinkingState}

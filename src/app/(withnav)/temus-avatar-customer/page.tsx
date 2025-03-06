@@ -13,6 +13,9 @@ function TemusAvatarCustomerPage() {
         title={scenario.title}
         description={scenario.description}
         prompt={scenario.prompt}
+        avatar={scenario.avatar}
+        background={scenario.background}
+        voice={scenario.voice}
       />
     </Suspense>
   );

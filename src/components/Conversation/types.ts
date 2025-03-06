@@ -3,6 +3,9 @@ import React from "react"
 export interface ConversationProps {
   conversationId: string
   prompt: string
+  avatar: string
+  background: string
+  voice: string
   children?: React.ReactNode
   onVideoReady?: () => void
   setConversationAvatarType?: (type: "avatar" | "audio") => void

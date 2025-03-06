@@ -26,6 +26,9 @@ function Conversation(props: ConversationProps) {
     muted = false,
     conversationId,
     prompt,
+    avatar,
+    background,
+    voice,
     conversationSetupParams,
     children,
     onVideoReady,
@@ -202,6 +205,9 @@ function Conversation(props: ConversationProps) {
       param: {
         startMessage: "",
         prompt,
+        avatar,
+        background,
+        voice,
         ...conversationSetupParams,
       }
     });
