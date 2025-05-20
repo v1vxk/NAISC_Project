@@ -3,7 +3,6 @@ import clsx from "clsx"
 import axios from 'axios'
 import { StartConversationButtonProps, VoiceCallAvailableResponse } from "./types"
 import { Button } from "primereact/button"
-import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 
 function StartConversationButton(props: StartConversationButtonProps) {
@@ -15,26 +14,15 @@ function StartConversationButton(props: StartConversationButtonProps) {
   useEffect(() => {
     const checkAvailability = async () => {
       try {
-        const token = Cookies.get('auth_token');
-        if (!token) {
-          router.push('/login');
-          return;
-        }
-
         const response = await axios.get<VoiceCallAvailableResponse>(
           `${process.env.NEXT_PUBLIC_HTTP_SERVER_URL}/api/conversation/available`,
           {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
+            headers: {}
           }
         );
         setIsChatAvailable(response.data.voice_call_available);
       } catch (error) {
         console.error("Error checking chat availability:", error);
-        if (axios.isAxiosError(error) && error.response?.status === 401) {
-          router.push('/login');
-        }
       } finally {
         setIsCheckingStatus(false);
       }
@@ -47,7 +35,7 @@ function StartConversationButton(props: StartConversationButtonProps) {
     const interval = setInterval(checkAvailability, 2000);
 
     return () => clearInterval(interval);
-  }, [router]);
+  }, []);
 
   return (
     <div className="flex flex-column gap-3 align-items-center justify-content-center">

@@ -1,43 +1,14 @@
 import { Button } from 'primereact/button';
 import { MicIcon, MicOffIcon, XIcon } from 'lucide-react';
 import { VideoChatControlsProps } from './types';
-import { useEffect, useState } from 'react';
-import axios from "axios";
-import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 const ICON_SIZE = 32
 
 function VideoChatControls(props: VideoChatControlsProps) {
   const { muted, setMuted, onMuteClick, onExitClick } = props
-  const [isAvatarEnabled, setIsAvatarEnabled] = useState<boolean | null>(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const token = Cookies.get('auth_token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
-    axios.get(
-      `${process.env.NEXT_PUBLIC_HTTP_SERVER_URL}/api/conversation/avatar-enabled`,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    )
-      .then((response) => {
-        setIsAvatarEnabled(response.data.avatar_enabled);
-      })
-      .catch((error) => {
-        console.error('Error fetching avatar status:', error);
-        if (axios.isAxiosError(error) && error.response?.status === 401) {
-          router.push('/login');
-        }
-      });
-  }, [router]);
 
   // Effect for keypress event
   useEffect(() => {
@@ -60,11 +31,7 @@ function VideoChatControls(props: VideoChatControlsProps) {
   }, [muted]);
 
   return (
-    <div 
-      className="absolute bottom-0 w-full flex align-items-center justify-content-center gap-4" 
-      style={{ paddingBottom: isAvatarEnabled ? undefined : '20px' }}
-      {...(isAvatarEnabled && { className: "absolute bottom-0 p-4 w-full flex align-items-center justify-content-center gap-4" })}
-    >
+    <div className="absolute bottom-0 p-4 w-full flex align-items-center justify-content-center gap-4">
       <Button
         rounded
         raised

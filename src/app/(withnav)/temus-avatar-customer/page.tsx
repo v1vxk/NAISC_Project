@@ -12,9 +12,10 @@ function TemusAvatarCustomerPage() {
       <ScenarioContent
         title={scenario.title}
         description={scenario.description}
+        startMessage={scenario.startMessage}
         prompt={scenario.prompt}
         avatar={scenario.avatar}
-        background={scenario.background}
+        backgroundImageUrl={scenario.backgroundImageUrl}
         voice={scenario.voice}
       />
     </Suspense>

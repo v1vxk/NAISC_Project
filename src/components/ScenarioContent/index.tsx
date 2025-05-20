@@ -4,16 +4,16 @@ import Conversation from "@/components/Conversation";
 import VideoChatControls from "@/components/VideoChatControls";
 import StartConversationButton from "@/components/StartConversationButton";
 import ThinkingState from "@/components/ThinkingState";
-import CountdownTimer from "@/components/CountdownTimer";
 import { useRouter } from 'next/navigation';
 import { Button } from 'primereact/button';
 
 interface ScenarioContentProps {
   title: string;
   description: string;
+  startMessage: string;
   prompt: string;
   avatar: string;
-  background: string;
+  backgroundImageUrl: string;
   voice: string;
 }
 
@@ -22,13 +22,12 @@ const generateShortId = () => {
   return `${randomNum}`;
 };
 
-export default function ScenarioContent({ title, description, prompt, avatar, background, voice }: ScenarioContentProps) {
+export default function ScenarioContent({ title, description, startMessage, prompt, avatar, backgroundImageUrl, voice }: ScenarioContentProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [conversationId] = useState(generateShortId());
   const [hasStarted, setHasStarted] = useState(false);
   const [muted, setMuted] = useState(false);
-  const [conversationAvatarType, setConversationAvatarType] = useState<"avatar" | "audio">("avatar");
   const [thinkingState, setThinkingState] = useState<boolean>(false);
   const audioTrackRef = useRef<MediaStreamTrack | null>(null);
 
@@ -74,18 +73,17 @@ export default function ScenarioContent({ title, description, prompt, avatar, ba
           <div className="absolute top-0 left-0 right-0 bottom-0 z-5 surface-900">
             <Conversation
               conversationId={conversationId}
+              startMessage={startMessage}
               prompt={prompt}
               avatar={avatar}
-              background={background}
+              backgroundImageUrl={backgroundImageUrl}
               voice={voice}
               muted={muted}
-              setConversationAvatarType={setConversationAvatarType}
               setThinkingState={setThinkingState}
               onConversationEnd={handleConversationEnd}
               audioTrack={audioTrackRef.current}
             >
-              {thinkingState && (<ThinkingState variant={conversationAvatarType} />)}
-              <CountdownTimer variant={conversationAvatarType} />
+              {thinkingState && (<ThinkingState />)}
               <VideoChatControls
                 muted={muted}
                 setMuted={setMuted}

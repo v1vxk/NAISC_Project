@@ -2,9 +2,10 @@ import React from "react"
 
 export interface ConversationProps {
   conversationId: string
+  startMessage: string
   prompt: string
   avatar: string
-  background: string
+  backgroundImageUrl?: string | null
   voice: string
   children?: React.ReactNode
   onVideoReady?: () => void

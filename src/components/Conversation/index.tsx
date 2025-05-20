@@ -4,10 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ConversationProps, AvatarWebsocketMessage } from "./types";
 import PixelStreamingVideo from "../PixelStreamingVideo";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import AudioConversation from "../AudioConversation";
-import axios from "axios";
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { Toast } from 'primereact/toast';
 
 const rtcConfig = process.env.NEXT_PUBLIC_USE_TURN_SERVER === 'true' ? {
   iceServers: [
@@ -22,17 +20,18 @@ const rtcConfig = process.env.NEXT_PUBLIC_USE_TURN_SERVER === 'true' ? {
 
 function Conversation(props: ConversationProps) {
   const router = useRouter();
+  const toastRef = useRef<Toast>(null);
   const {
     muted = false,
     conversationId,
+    startMessage,
     prompt,
     avatar,
-    background,
+    backgroundImageUrl,
     voice,
     conversationSetupParams,
     children,
     onVideoReady,
-    setConversationAvatarType,
     setThinkingState,
     onConversationEnd,
     onWebsocketMessage,
@@ -45,44 +44,13 @@ function Conversation(props: ConversationProps) {
   const [outputAudioTrack, setOutputAudioTrack] = useState<MediaStreamTrack | null>(null);
   const [avatarId, setAvatarId] = useState('');
   const [avatarName, setAvatarName] = useState('');
-  const [profileUrl, setProfileUrl] = useState('/avatarProfile.jpeg');
-  const [isAvatarEnabled, setIsAvatarEnabled] = useState<boolean | null>(false);
-
-  useEffect(() => {
-    const token = Cookies.get('auth_token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
-    axios.get(
-      `${process.env.NEXT_PUBLIC_HTTP_SERVER_URL}/api/conversation/avatar-enabled`,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    )
-      .then((response) => {
-        setConversationAvatarType?.(response.data.avatar_enabled ? 'avatar' : 'audio');
-        setIsAvatarEnabled(response.data.avatar_enabled);
-      })
-      .catch((error) => {
-        console.error('Error fetching avatar status:', error);
-        if (axios.isAxiosError(error) && error.response?.status === 401) {
-          router.push('/login');
-        }
-      });
-  }, [router, setConversationAvatarType]);
 
   const {
     sendJsonMessage,
     lastJsonMessage,
     readyState,
   } = useWebSocket<AvatarWebsocketMessage | null>(
-    isAvatarEnabled === null
-      ? null
-      : `${process.env.NEXT_PUBLIC_WSS_SERVER_URL}/api/conversation/${isAvatarEnabled ? 'webrtc' : 'webrtc/audio'}/${conversationId}`
+    `${process.env.NEXT_PUBLIC_WSS_SERVER_URL}/api/conversation/webrtc/${conversationId}`
   )
 
   const cleanupMedia = useCallback(() => {
@@ -181,32 +149,32 @@ function Conversation(props: ConversationProps) {
       setThinkingState?.(lastJsonMessage.thinking);
     }
 
+    // Display toast when unauthorized error occurs
     if (type === 'error' && lastJsonMessage.error === 'unauthorized') {
-      router.push('/login');
+      toastRef.current?.show({
+        severity: 'error',
+        summary: 'Unauthorized',
+        detail: 'You are not authorized to access this conversation, please make sure the API Key is correctly passed to the conversation websocket.',
+        life: 5000
+      });
     }
 
     onWebsocketMessage?.(lastJsonMessage);
-  }, [lastJsonMessage, onConversationEnd, onVideoReady, onWebsocketMessage, setThinkingState, cleanupMedia, router]);
+  }, [lastJsonMessage, onConversationEnd, onVideoReady, onWebsocketMessage, setThinkingState, cleanupMedia]);
 
   useEffect(() => {
     if (readyState !== ReadyState.OPEN) {
       return;
     }
 
-    const token = Cookies.get('auth_token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
     sendJsonMessage({
       type: "setup",
-      token: token,
+      token: "",
       param: {
-        startMessage: "",
+        startMessage,
         prompt,
         avatar,
-        background,
+        backgroundImageUrl,
         voice,
         ...conversationSetupParams,
       }
@@ -216,7 +184,7 @@ function Conversation(props: ConversationProps) {
       if (peer) {
         sendJsonMessage({
           type: "offer",
-          token: token,
+          token: "",
           offer: peer.localDescription,
         });
       }
@@ -225,7 +193,7 @@ function Conversation(props: ConversationProps) {
     return () => {
       cleanupMedia();
     };
-  }, [readyState, sendJsonMessage, conversationSetupParams, prompt, createPeerConnection, cleanupMedia, router]);
+  }, [readyState, sendJsonMessage, conversationSetupParams, prompt, createPeerConnection, cleanupMedia]);
 
   useEffect(() => {
     if (!audioTrack) {
@@ -236,19 +204,12 @@ function Conversation(props: ConversationProps) {
 
   return (
     <div className="h-full w-full relative overflow-hidden">
-      {isAvatarEnabled === null ? (
-        <div>Loading...</div>
-      ) : isAvatarEnabled ? (
-        <>
-          <PixelStreamingVideo avatarId={avatarId} />
-          {avatarName && (
-            <div className="absolute top-0 left-0 py-2 px-3 mt-3 ml-3 border-round-xl" style={{ backgroundColor: 'rgba(211, 211, 211, 0.8)' }}>
-              <p className="m-0 text-2xl text-black">{avatarName}</p>
-            </div>
-          )}
-        </>
-      ) : (
-        <AudioConversation inputAudioTrack={inputAudioTrack} outputAudioTrack={outputAudioTrack} profileUrl={profileUrl} avatarName={avatarName} />
+      <Toast ref={toastRef} position="top-center" />
+      <PixelStreamingVideo avatarId={avatarId} />
+      {avatarName && (
+        <div className="absolute top-0 left-0 py-2 px-3 mt-3 ml-3 border-round-xl" style={{ backgroundColor: 'rgba(211, 211, 211, 0.8)' }}>
+          <p className="m-0 text-2xl text-black">{avatarName}</p>
+        </div>
       )}
       <audio ref={remoteAudioRef} autoPlay />
       {children}
