@@ -17,7 +17,7 @@ function StartConversationButton(props: StartConversationButtonProps) {
         const response = await axios.get<VoiceCallAvailableResponse>(
           `${process.env.NEXT_PUBLIC_HTTP_SERVER_URL}/api/conversation/available`,
           {
-            headers: {}
+            headers: { 'xi-api-key': process.env.NEXT_PUBLIC_API_KEY || "" }
           }
         );
         setIsChatAvailable(response.data.voice_call_available);

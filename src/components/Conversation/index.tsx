@@ -169,8 +169,8 @@ function Conversation(props: ConversationProps) {
 
     sendJsonMessage({
       type: "setup",
-      token: "",
       param: {
+        apiKey: process.env.NEXT_PUBLIC_API_KEY || "",
         startMessage,
         prompt,
         avatar,
@@ -184,7 +184,6 @@ function Conversation(props: ConversationProps) {
       if (peer) {
         sendJsonMessage({
           type: "offer",
-          token: "",
           offer: peer.localDescription,
         });
       }
