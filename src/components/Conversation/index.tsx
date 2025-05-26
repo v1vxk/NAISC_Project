@@ -125,15 +125,22 @@ function Conversation(props: ConversationProps) {
     }
     
     if (type === 'answer' && peerRef.current) {
-      peerRef.current.setRemoteDescription(new RTCSessionDescription(lastJsonMessage.answer))
-        .then(() => {
-          // Get the output audio track
-          peerRef.current?.getReceivers().forEach(receiver => {
-            if (receiver.track.kind === 'audio') {
-              setOutputAudioTrack(receiver.track);
-            }
+      try {
+        peerRef.current.setRemoteDescription(new RTCSessionDescription(lastJsonMessage.answer))
+          .then(() => {
+            // Get the output audio track
+            peerRef.current?.getReceivers().forEach(receiver => {
+              if (receiver.track.kind === 'audio') {
+                setOutputAudioTrack(receiver.track);
+              }
+            });
+          })
+          .catch((error) => {
+            console.error('Error setting remote description:', error);
           });
-        });
+      } catch (error) {
+        console.error('Error creating or setting remote description:', error);
+      }
     }
 
     if (type === 'thinkingState') {

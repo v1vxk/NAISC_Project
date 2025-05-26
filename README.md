@@ -1,5 +1,5 @@
 
-# Temus Avatar Hackathon
+# 🎉 Temus Avatar Hackathon
 
 Your objective in this Hackathon is to think of amazing, unique and creative Avatar use-cases and create a user journey UI/UX client for your users to experience this *Avatar Product*.
 
@@ -16,7 +16,21 @@ Here are some ideas to get you started:
 3. An embeddable Avatar javascript in external websites
 
 
-## How to Get Started
+## 📋 Prerequisites
+
+Before getting started, make sure you have the following installed:
+
+- **Node.js** (version 18 or higher) - [Download here](https://nodejs.org/)
+- **npm** (comes with Node.js) or **yarn**
+
+To check if you have Node.js installed, run:
+```bash
+node --version
+npm --version
+```
+
+
+## 🚀 How to Get Started
 
 Run this example NextJS repository:
 
@@ -39,9 +53,20 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
-## More about the Avatar SDK
+## 🧠 AI Model Information
 
-Note: Only 1 concurrent Avatar is available for each Group/Api Key
+This Avatar implementation is powered by **Claude Sonnet 4**, Anthropic's latest language model, providing:
+
+- Advanced reasoning capabilities  
+
+- Natural conversation flow
+
+- Contextual understanding
+
+
+## 🤖 More about the Avatar SDK
+
+❗️Note: Only 1 concurrent Avatar is available for each Group/Api Key
 
 1. First things first, use this endpoint `{base_url}/api/conversation/available` to check if an Avatar is available (Example in `src/components/StartConversationButton/index.tsx`).
 
@@ -57,11 +82,41 @@ Note: Only 1 concurrent Avatar is available for each Group/Api Key
 
         - temperature & topP (0 - 1): To help determine how creative your Avatar's response is. (A lower value (e.g. 0.3) makes the Avatar more focused and deterministic, while a higher value (e.g. 0.9) allows for more diverse and creative)
 
-        - avatar: Select 1 Avatar out of 6 to use (henry, jessie, kenji, kevin, martha, michelle). The Avatar profiles are available in `avatars`
+        - avatar: Select 1 out of the following 6 Avatars to use. The Avatar profiles are available in `avatars`
+
+            - henry
+            
+            - jessie
+            
+            - kenji
+            
+            - kevin
+            
+            - martha
+            
+            - michelle
 
         - backgroundImageUrl: A publicliy accessible image url for the Avatar background
 
-        - voice: Select 1 Voice out of 6 to use (henry, jessie, kenji, kevin, martha, michelle).
+            - ❗️Important: Please make sure that the public image is either `PNG` or `JPEG`.
+
+        - voice: Select 1 out of the following 6 Voices to use.
+
+            - henry
+            
+            - jessie
+            
+            - kenji
+            
+            - kevin
+            
+            - martha
+            
+            - michelle
 
 3. After successfully connecting to the websocket, an `avatar_uuid` will be provided, please use this `avatar_uuid` to connect to the Avatar Video (Example in `src/components/PixelStreamingVideo/index.tsx`)
+
+4. Try out different start message, system prompt, avatars, voices and background images in `src/config/scenarios.ts`
+
+5. Start Building Away! 🔥 You can either start from strach in a new repo to craft your own unique user experience (borrowing some of the working code here) or build on top of this repo.
 
