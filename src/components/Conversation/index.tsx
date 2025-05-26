@@ -173,6 +173,8 @@ function Conversation(props: ConversationProps) {
         apiKey: process.env.NEXT_PUBLIC_API_KEY || "",
         startMessage,
         prompt,
+        temperature: 0.0,
+        topP: 0.9,
         avatar,
         backgroundImageUrl,
         voice,
