@@ -136,15 +136,6 @@ function Conversation(props: ConversationProps) {
         });
     }
 
-    if (type === 'end_call') {
-      cleanupMedia();
-      onConversationEnd?.();
-    }
-
-    if (type === 'name') {
-      setAvatarName(lastJsonMessage.name);
-    }
-
     if (type === 'thinkingState') {
       setThinkingState?.(lastJsonMessage.thinking);
     }
@@ -173,8 +164,8 @@ function Conversation(props: ConversationProps) {
         apiKey: process.env.NEXT_PUBLIC_API_KEY || "",
         startMessage,
         prompt,
-        temperature: 0.0,
-        topP: 0.9,
+        temperature: 0.1,
+        topP: 0.8,
         avatar,
         backgroundImageUrl,
         voice,
