@@ -147,12 +147,11 @@ function Conversation(props: ConversationProps) {
       setThinkingState?.(lastJsonMessage.thinking);
     }
 
-    // Display toast when unauthorized error occurs
-    if (type === 'error' && lastJsonMessage.error === 'unauthorized') {
+    // Display error toast
+    if (type === 'error') {
       toastRef.current?.show({
         severity: 'error',
-        summary: 'Unauthorized',
-        detail: 'You are not authorized to access this conversation, please make sure the API Key is correctly passed to the conversation websocket.',
+        summary: lastJsonMessage.message,
         life: 5000
       });
     }
@@ -171,8 +170,8 @@ function Conversation(props: ConversationProps) {
         apiKey: process.env.NEXT_PUBLIC_API_KEY || "",
         startMessage,
         prompt,
-        temperature: 0.1,
-        topP: 0.8,
+        temperature: 0.0,
+        topP: 0.9,
         avatar,
         backgroundImageUrl,
         voice,
