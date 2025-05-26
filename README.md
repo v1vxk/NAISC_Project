@@ -1,7 +1,7 @@
 
-## Temus Avatar Hackathon
+# Temus Avatar Hackathon
 
-You objective in this Hackathon is to think of amazing, unique and creative Avatar use-cases and create a user journey UI/UX client for your users to experience this *Avatar Product*.
+Your objective in this Hackathon is to think of amazing, unique and creative Avatar use-cases and create a user journey UI/UX client for your users to experience this *Avatar Product*.
 
 This repository is just a working example to work with the Temus Avatar. You don't need to based your design on this repo. Try not to limit your imagination! 
 
