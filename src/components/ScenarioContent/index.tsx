@@ -11,7 +11,7 @@ interface ScenarioContentProps {
   title: string;
   description: string;
   startMessage: string;
-  prompt: string;
+  prompt: string; 
   avatar: string;
   backgroundImageUrl: string; // used only inside Conversation component
   voice: string;

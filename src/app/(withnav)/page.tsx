@@ -143,10 +143,10 @@ export default function Page() {
         }}
       >
         {[
-          { title: 'Talk in Singlish', color: '#ffe0e0' },
-          { title: 'Remind Appointments', color: '#fff4d6' },
-          { title: 'Explain Government Stuff', color: '#e0f7ff' },
-          { title: 'Tell Stories / Jokes', color: '#e6ffe6' },
+          { title: 'Share News/Promotions', color: '#ffe0e0' },
+          { title: 'Suggest Community Activities', color: '#fff4d6' },
+          { title: 'Explain Government Apps/Services', color: '#e0f7ff' },
+          { title: 'Tell Kopitiam Stories/Jokes', color: '#e6ffe6' },
         ].map((feature, i) => (
           <div
             key={i}
@@ -160,7 +160,7 @@ export default function Page() {
             }}
           >
             <h2 style={{ marginTop: 0 }}>{feature.title}</h2>
-            <p>AuntieBot helps you with this, no problem one!</p>
+            <p>ElderBot helps you with this, no problem one!</p>
           </div>
         ))}
       </div>
