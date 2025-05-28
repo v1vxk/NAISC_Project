@@ -13,7 +13,7 @@ interface ScenarioContentProps {
   startMessage: string;
   prompt: string;
   avatar: string;
-  backgroundImageUrl: string;
+  backgroundImageUrl: string; // used only inside Conversation component
   voice: string;
 }
 
@@ -49,7 +49,16 @@ export default function ScenarioContent({ title, description, startMessage, prom
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div
+      className="relative w-full h-full"
+      style={{
+        backgroundImage: "url('/background.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100vh',
+      }}
+    >
       <Button 
         icon="pi pi-arrow-left" 
         onClick={handleBack}
@@ -59,11 +68,11 @@ export default function ScenarioContent({ title, description, startMessage, prom
         size="large"
         severity="secondary"
       />
-      <div className="flex-1 w-full h-full flex justify-content-center">
+      <div className="flex-1 w-full h-full flex justify-content-center bg-black bg-opacity-60">
         {!hasStarted ? (
           <div className="h-full w-full flex flex-column align-items-center justify-content-center gap-4 p-4" style={{ maxWidth: 600 }}>
-            <h1 className="text-3xl font-semibold text-gray-800 text-center m-0">{title}</h1>
-            <p className="text-lg text-gray-600 text-center line-height-3 m-0">{description}</p>
+            <h1 className="text-3xl font-semibold text-gray-900 text-center m-0">{title}</h1>
+            <p className="text-lg text-gray-800 text-center line-height-3 m-0">{description}</p>
 
             <div className="flex gap-3">
               <StartConversationButton onClick={() => setHasStarted(true)} />
@@ -96,4 +105,4 @@ export default function ScenarioContent({ title, description, startMessage, prom
       </div>
     </div>
   );
-} 
+}

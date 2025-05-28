@@ -43,6 +43,7 @@
 import React from 'react';
 import Link from 'next/link';
 
+
 export default function Page() {
   return (
     <div style={{ width: '100vw', minHeight: '100vh', fontFamily: 'sans-serif', overflowX: 'hidden', fontWeight: '60' }}>

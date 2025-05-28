@@ -48,8 +48,8 @@ function StartConversationButton(props: StartConversationButtonProps) {
         size="large"
       />
       <div className="flex gap-2 align-items-center">
-        <div className={clsx("border-circle", isCheckingStatus ? 'surface-300' : isChatAvailable ? 'bg-green-500' : 'bg-red-500')} style={{ width: 7, height: 7 }} />
-        <p className="m-0 text-color-secondary text-sm">
+        <div className={clsx("border-circle", isCheckingStatus ? 'surface-300' : isChatAvailable ? 'bg-green-700' : 'bg-red-700')} style={{ width: 7, height: 7 }} />
+        <p className="m-0 text-gray-900 text-sm">
           {isCheckingStatus ? 'Checking chat status...' : isChatAvailable ? 'Chat available' : 'Chat not available'}
         </p>
       </div>
