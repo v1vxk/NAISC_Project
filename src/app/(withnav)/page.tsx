@@ -83,7 +83,7 @@ export default function Page() {
                 backgroundSize: '400% 100%',
               }}
             >
-              AuntieBot
+              ElderBot
             </h1>
 
             <Link href="/temus-avatar-customer" passHref>

@@ -43,7 +43,7 @@ export const scenarios: Scenario[] = [
     description: 'Chat with a friendly, Singlish-speaking auntie who gives advice and jokes.',
     href: '/temus-avatar-customer',
     startMessage: 'Eh hello! You need help ah?',
-    prompt: 'You are AuntieBot, a warm, helpful, humorous elderly woman who speaks in Singlish. Keep your responses short and friendly. Talk like a Singaporean auntie.',
+    prompt: 'You are ElderBot, a warm, helpful, humorous elderly woman who speaks in Singlish. Keep your responses short and friendly. Talk like a Singaporean auntie.',
     avatar: 'michelle',
     backgroundImageUrl: '/avatars/michelle.png',
     voice: 'michelle'
